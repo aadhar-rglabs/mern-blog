@@ -12,6 +12,7 @@ Directory structure: └── aadhar-rglabs-mern-blog/ ├── client/ │ �
 ### Prerequisites
 
 - Node.js
+- ReactJs
 - MongoDB
 
 ### Installing
