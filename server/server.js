@@ -2,6 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const User = require('./Models/User');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const auth = require('./middleware/auth');
+const { check, validationResult } = require('express-validator');
+const authRouter = require('./routes/auth');
 const blogRouter = require('./routes/blogs');
 
 dotenv.config();
@@ -12,6 +18,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+app.use('/auth', authRouter);
 app.use('/blogs', blogRouter);
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });

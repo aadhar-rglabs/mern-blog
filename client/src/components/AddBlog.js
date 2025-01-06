@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify'; 
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddBlog = () => {
   const [title, setTitle] = useState("");
@@ -16,9 +16,20 @@ const AddBlog = () => {
 
     axios
       .post("http://localhost:5000/blogs/add", newBlog)
-      .then((res) => console.log(res.data));
-    toast.success('Blog post added successfully!');
-    navigate("/"); // Redirect to the desired page after successful deletion
+      // .then((res) => console.log(res.data));
+      .then((response) => {
+        // console.table(response.data.data);
+        console.table(response);
+        toast.success("Blog post added successfully!");
+        navigate("/"); // Redirect to the desired page after successful deletion
+      })
+      .catch((error) => {
+        // console.error(error.status);
+        if (error.response.status === 401) {
+          toast.error("Unauthorized user. Please login.");
+          navigate("/login");
+        }
+      });
 
     setTitle("");
     setContent("");
@@ -38,17 +49,14 @@ const AddBlog = () => {
       <h2>
         Add Blog
         <button
-          class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 float-end"
+          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 float-end"
           onClick={handleList}
         >
           Blog Lists
         </button>
       </h2>
 
-      <form
-        className=""
-        onSubmit={onSubmit}
-      >
+      <form className="" onSubmit={onSubmit}>
         <input
           type="text"
           className="appearance-none border rounded w-full py-2 px-3 my-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

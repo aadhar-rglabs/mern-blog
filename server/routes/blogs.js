@@ -1,8 +1,11 @@
 const router = require("express").Router();
 const Blog = require("../Models/Blog");
+const express = require('express'); 
+const auth = require('../middleware/auth'); 
+
 
 // All Blogs
-router.route("/").get((req, res) => {
+router.route("/").get(auth, (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 5;
   Blog.find()
@@ -14,7 +17,7 @@ router.route("/").get((req, res) => {
 
 
 // Add Blog
-router.route("/add").post((req, res) => {
+router.route("/add").post(auth, (req, res) => {
   const title = req.body.title;
   const content = req.body.content;
   const newBlog = new Blog({ title, content });
@@ -26,7 +29,7 @@ router.route("/add").post((req, res) => {
 
 
 // Get Blog
-router.route("/blog/:id").get((req, res) => {
+router.route("/blog/:id").get(auth, (req, res) => {
   Blog.findById(req.params.id)
     // .then((blog) => res.json(blog))
     .then((blog) => res.json({"status": 200, "message": "Success!", data: blog}))
@@ -35,7 +38,7 @@ router.route("/blog/:id").get((req, res) => {
 
 
 // Update Blog
-router.route("/update/:id").post((req, res) => {
+router.route("/update/:id").post(auth, (req, res) => {
   Blog.findById(req.params.id)
     .then((blog) => {
       blog.title = req.body.title;
@@ -51,7 +54,7 @@ router.route("/update/:id").post((req, res) => {
 
 
 // Delete Blog
-router.route("/delete/:id").delete((req, res) => {
+router.route("/delete/:id").delete(auth, (req, res) => {
   Blog.findByIdAndDelete(req.params.id)
     .then(() => res.json({"status": 200, "message": "Blog deleted."}))
     .catch((err) => res.status(400).json("Error: " + err));
