@@ -72,7 +72,7 @@ router.post('/login', [
     }
 
     // Return JWT
-    const payload = { user: { id: user.id } };
+    const payload = { user: { id: user.id, email: user.email, username: user.username } };
     jwt.sign(payload, jwtSecret, { expiresIn: 360000 }, (err, token) => {
       if (err) throw err;
       res.json({ token });

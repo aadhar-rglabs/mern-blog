@@ -5,8 +5,10 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
+  const [user, setUser] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const authContext = useContext(AuthContext); // Get the entire context object
@@ -28,6 +30,14 @@ const Login = () => {
           // console.table(res);
           if (res.status === 200) {
             login(res.data.token);
+            try { 
+                const decoded = jwtDecode(res.data.token); 
+                console.log('Decoded Token Data:', decoded); 
+                sessionStorage.setItem('username', JSON.stringify(decoded.user.username));
+                sessionStorage.setItem('email', JSON.stringify(decoded.user.email));
+            } catch (err) { 
+                console.error('Failed to decode token:', err.message); 
+            }
             toast.success("Login successfully!");
             navigate("/");
           }
@@ -42,12 +52,12 @@ const Login = () => {
 
   return (
     <section className="bg-white">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <div className="flex flex-col items-center justify-center px-2 py-4 mx-auto md:h-screen lg:py-0">
         <a
           href="#"
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
-          Blog
+          <img src="/logo-sm.png" alt="Blog" className="h-12 mr-2" />
         </a>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

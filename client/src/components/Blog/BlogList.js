@@ -22,6 +22,7 @@ const BlogList = () => {
       console.log('No token found, redirect to login'); 
       navigate("/login");
     }
+    
     axios
       .get("http://localhost:5000/blogs?limit=10", { headers: { 'x-auth-token': `${token}` }})
       .then((response) => {
@@ -98,7 +99,7 @@ const BlogList = () => {
 
   return (
     <div className="container mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 relative overflow-x-auto shadow-md sm:rounded-lg">
-      <h2 className="text-3xl font-bold underline ml-8 mb-4">
+      <h2 className="text-3xl font-bold no-underline ml-8 mb-4">
         Blog List
         <button
           className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 float-end"
@@ -176,9 +177,9 @@ const BlogList = () => {
                           */}
 
                            
-                            <a href="#" className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white" onClick={() => handleView(blog._id)}>View</a>
-                            <a href="#" className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white ms-3" onClick={() => handleEdit(blog._id)}>Edit</a>
-                            <a href="#" className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white ms-3" onClick={() => handleDelete(blog._id)}>Remove</a>
+                            <a href="#" style={tabLinks} className="px-4 py-2 text-sm no-underline font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white" onClick={() => handleView(blog._id)}>View</a>
+                            <a href="#" style={tabLinks} className="px-4 py-2 text-sm no-underline font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white ms-3" onClick={() => handleEdit(blog._id)}>Edit</a>
+                            <a href="#" style={tabLinks} className="px-4 py-2 text-sm no-underline font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white ms-3" onClick={() => handleDelete(blog._id)}>Remove</a>
                       
                         </div>
                       </td>
@@ -195,6 +196,11 @@ const BlogList = () => {
       />
     </div>
   );
+};
+
+const tabLinks = {
+  color: 'rgb(131, 115, 106)',
+  textDecoration: 'none',
 };
 
 export default BlogList;

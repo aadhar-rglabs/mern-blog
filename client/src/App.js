@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import BlogList from "./components/BlogList";
-import AddBlog from "./components/AddBlog";
-import EditBlog from "./components/EditBlog";
-import Pagination from "./components/Pagination";
+import BlogList from "./components/Blog/BlogList";
+import AddBlog from "./components/Blog/AddBlog";
+import EditBlog from "./components/Blog/EditBlog";
+import Pagination from "./components/Blog/Pagination";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ViewBlog from "./components/ViewBlog";
+import ViewBlog from "./components/Blog/ViewBlog";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 // import PrivateRoute from "./components/Auth/PrivateRoute";
@@ -13,14 +13,18 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactDOM from 'react-dom'; 
 import { AuthProvider } from './context/AuthContext';
+import Header from "./components/layouts/Header";
+import Footer from "./components/layouts/Footer";
 
 
 function App() {
   return (
     // 
-    <div className="App container mx-auto px-4 py-4"> <h1 className="text-3xl font-bold underline"></h1>
+    <div className="App">
       <AuthProvider>
         <Router>
+          <Header />
+          <div className="App container mx-auto px-4 py-4">
           <Routes>
             {/* <Route path="/" element={<BlogList />}></Route> */}
             {/* <Route path="/" component={BlogList} exact />
@@ -34,6 +38,8 @@ function App() {
             <Route exact path='/login' element={<Login/>}/>
             <Route exact path='/register' element={<Register/>}/>
           </Routes>
+          </div>
+          <Footer />
         </Router>
       </AuthProvider>,
       <ToastContainer />
