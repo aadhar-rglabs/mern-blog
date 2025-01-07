@@ -12,7 +12,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const authContext = useContext(AuthContext); // Get the entire context object
-  console.log(authContext); // Check the values of the context
+  // console.log(authContext); // Check the values of the context
   const { login } = authContext || {}; // Destructure 'login' from authContext
   const navigate = useNavigate();
 
@@ -27,7 +27,11 @@ const Login = () => {
       await axios
         .post("http://localhost:5000/auth/login", loginData)
         .then((res) => {
-          // console.table(res);
+          if (res.status === 400) {
+            toast.error("Unauthorized user. Please login.");
+            navigate("/login");
+          }
+          console.table(res);
           if (res.status === 200) {
             login(res.data.token);
             try { 
@@ -44,6 +48,16 @@ const Login = () => {
         })
         .catch((error) => {
           console.error(error);
+          // console.log(error.response.data.errors);
+            if (error.response && error.response.data && error.response.data.errors) {
+              error.response.data.errors.forEach((err) => {
+                if(err.msg) {
+                  toast.error(err.msg);
+                  // document.getElementById(err.path).classList.add('bg-red-50', 'border-red-500', 'text-red-900', 'placeholder-red-700', 'focus:ring-red-500', 'dark:bg-gray-700', 'focus:border-red-500', 'dark:text-red-500', 'dark:border-red-500');
+                  // document.getElementById(err.path).innerText = `<span class="font-medium">Oh, Error!</span> ${err.msg}`;
+                }
+              });
+            }
         });
     } catch (err) {
       console.error(err);
@@ -79,7 +93,7 @@ const Login = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
                   onChange={(e) => setEmail(e.target.value)}
-                  required
+                  
                 />
               </div>
               <div>
@@ -96,7 +110,7 @@ const Login = () => {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   onChange={(e) => setPassword(e.target.value)}
-                  required
+                  
                 />
               </div>
 

@@ -16,7 +16,8 @@ const Header = () => {
         const username = sessionStorage.getItem('username'); 
         const email = sessionStorage.getItem('email'); 
         if (!token) {
-            console.log("No token found, redirect to login");
+            toast.info("Unauthorized user. Please login.");
+            // console.log("No token found, redirect to login");
             navigate("/login");
         }
 

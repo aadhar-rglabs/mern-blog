@@ -11,8 +11,8 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const authContext = useContext(AuthContext); // Get the entire context object
-  console.log("authContext: "); // Check the values of the context
-  console.log(authContext); // Check the values of the context
+  // console.log("authContext: "); // Check the values of the context
+  // console.log(authContext); // Check the values of the context
   const { login } = authContext || {}; // Destructure 'login' from authContext
   const navigate = useNavigate();
 
@@ -39,10 +39,11 @@ const Register = () => {
       })
       .catch((error) => {
         console.error(error);
-        // if (error.response.status === 401) {
-        //   toast.error("Unauthorized user. Please login.");
-        //   navigate("/register");
-        // }
+        if (error.response && error.response.data && error.response.data.errors) {
+          error.response.data.errors.forEach((err) => {
+            toast.error(err.msg);
+          });
+        }
       });
   };
 
@@ -73,7 +74,6 @@ const Register = () => {
                   type="text"
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Username"
-                  required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
@@ -89,7 +89,6 @@ const Register = () => {
                   type="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Email"
-                  required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />

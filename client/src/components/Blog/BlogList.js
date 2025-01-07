@@ -19,7 +19,8 @@ const BlogList = () => {
   useEffect(() => {
     const token = localStorage.getItem('token'); 
     if (!token) { 
-      console.log('No token found, redirect to login'); 
+      // console.log('No token found, redirect to login'); 
+      // toast.info('Unauthorized user. Please login.');
       navigate("/login");
     }
     
@@ -48,7 +49,8 @@ const BlogList = () => {
     try {
       const token = localStorage.getItem('token'); 
       if (!token) { 
-        console.log('No token found, redirect to login'); 
+        // console.log('No token found, redirect to login'); 
+        toast.error('Unauthorized user. Please login.');
         navigate("/login");
       }
       await axios.delete(`http://localhost:5000/blogs/delete/${id}`, { headers: { 'x-auth-token': `${token}` }});

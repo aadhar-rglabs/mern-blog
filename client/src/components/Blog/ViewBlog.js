@@ -19,7 +19,7 @@ const ViewBlog = () => {
     axios
       .get(`http://localhost:5000/blogs/blog/${id}`, { headers: { 'x-auth-token': `${token}` }})
       .then((response) => {
-        console.table(response.data.data);
+        // console.table(response.data.data);
         setBlog(response.data.data);
       })
       .catch((error) => console.error(error));
