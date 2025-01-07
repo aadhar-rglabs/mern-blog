@@ -11,11 +11,15 @@ const AddBlog = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
+    const token = localStorage.getItem('token'); 
+    if (!token) { 
+      console.log('No token found, redirect to login'); 
+      navigate("/login");
+    }
     const newBlog = { title, content };
 
     axios
-      .post("http://localhost:5000/blogs/add", newBlog)
+      .post("http://localhost:5000/blogs/add", newBlog, { headers: { 'x-auth-token': `${token}` }})
       // .then((res) => console.log(res.data));
       .then((response) => {
         // console.table(response.data.data);

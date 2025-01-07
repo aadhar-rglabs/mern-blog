@@ -13,16 +13,17 @@ const BlogList = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-
-  const [id, setEditingId] = useState(null);
-  const [title, setEditedTitle] = useState("");
-  const [content, setEditedContent] = useState("");
   const navigate = useNavigate();
   // const history = useHistory();
 
   useEffect(() => {
+    const token = localStorage.getItem('token'); 
+    if (!token) { 
+      console.log('No token found, redirect to login'); 
+      navigate("/login");
+    }
     axios
-      .get("http://localhost:5000/blogs?limit=10")
+      .get("http://localhost:5000/blogs?limit=10", { headers: { 'x-auth-token': `${token}` }})
       .then((response) => {
         // console.table(response.data.data);
         setData(response.data.data);
@@ -44,7 +45,12 @@ const BlogList = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/blogs/delete/${id}`);
+      const token = localStorage.getItem('token'); 
+      if (!token) { 
+        console.log('No token found, redirect to login'); 
+        navigate("/login");
+      }
+      await axios.delete(`http://localhost:5000/blogs/delete/${id}`, { headers: { 'x-auth-token': `${token}` }});
       toast.error('Blog post deleted successfully!');
       // Replace with your actual API endpoint
       navigate("/"); // Redirect to the desired page after successful deletion

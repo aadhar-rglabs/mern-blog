@@ -11,8 +11,13 @@ const EditBlog = () => {
   const [blog, setBlog] = useState({ title: "", content: "" });
 
   useEffect(() => {
+    const token = localStorage.getItem('token'); 
+    if (!token) { 
+      console.log('No token found, redirect to login'); 
+      navigate("/login");
+    }
     axios
-      .get(`http://localhost:5000/blogs/blog/${id}`)
+      .get(`http://localhost:5000/blogs/blog/${id}`, { headers: { 'x-auth-token': `${token}` }})
       .then((response) => {
         console.table(response.data.data);
         setBlog(response.data.data);
@@ -36,12 +41,17 @@ const EditBlog = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token'); 
+    if (!token) { 
+      console.log('No token found, redirect to login'); 
+      navigate("/login");
+    }
     console.log(blog);
     const { title, content } = e.target;
     setBlog({ ...blog, [title]: title, [content]: content });
     
     axios
-      .post(`http://localhost:5000/blogs/update/${id}`, blog)
+      .post(`http://localhost:5000/blogs/update/${id}`, blog, { headers: { 'x-auth-token': `${token}` }})
       .then((response) => {
         console.table(response.data.data);
         toast.success('Blog post updated successfully!');

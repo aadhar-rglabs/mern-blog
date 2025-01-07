@@ -11,8 +11,13 @@ const ViewBlog = () => {
   const [blog, setBlog] = useState({ title: "", content: "" });
 
   useEffect(() => {
+    const token = localStorage.getItem('token'); 
+    if (!token) { 
+      console.log('No token found, redirect to login'); 
+      navigate("/login");
+    }
     axios
-      .get(`http://localhost:5000/blogs/blog/${id}`)
+      .get(`http://localhost:5000/blogs/blog/${id}`, { headers: { 'x-auth-token': `${token}` }})
       .then((response) => {
         console.table(response.data.data);
         setBlog(response.data.data);
@@ -36,7 +41,12 @@ const ViewBlog = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/blogs/delete/${id}`);
+      const token = localStorage.getItem('token'); 
+      if (!token) { 
+        console.log('No token found, redirect to login'); 
+        navigate("/login");
+      }
+      await axios.delete(`http://localhost:5000/blogs/delete/${id}`, { headers: { 'x-auth-token': `${token}` }});
       toast.error('Blog post deleted successfully!');
       navigate("/"); // Redirect to the desired page after successful deletion
     } catch (error) {

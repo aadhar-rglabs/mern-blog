@@ -25,10 +25,12 @@ function App() {
             {/* <Route path="/" element={<BlogList />}></Route> */}
             {/* <Route path="/" component={BlogList} exact />
             <Route path="/add" component={AddBlog} /> */}
-            <Route exact path='/' element={<BlogList/>}/>
+            {/* <Route exact path='/' element={<BlogList/>}/> */}
+            {/* <Route exact path='/dashboard' element={<BlogList/>}/> */}
             <Route exact path='/add' element={<AddBlog/>}/>
             <Route exact path='/edit/:id' element={<EditBlog/>}/>
             <Route exact path='/view/:id' element={<ViewBlog/>}/>
+            <Route exact path='/' element={<BlogList/>}/>
             <Route exact path='/login' element={<Login/>}/>
             <Route exact path='/register' element={<Register/>}/>
           </Routes>

@@ -17,12 +17,24 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      //   const res = await axios.post(process.env.PORT + 'auth/login', { email, password });
-      const res = await axios.post("http://localhost:5000/auth/login", {
+      const loginData = {
         email,
         password,
-      });
-      login(res.data.token);
+      };
+
+      await axios
+        .post("http://localhost:5000/auth/login", loginData)
+        .then((res) => {
+          // console.table(res);
+          if (res.status === 200) {
+            login(res.data.token);
+            toast.success("Login successfully!");
+            navigate("/");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     } catch (err) {
       console.error(err);
     }
@@ -56,6 +68,7 @@ const Login = () => {
                   id="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
@@ -72,6 +85,7 @@ const Login = () => {
                   id="password"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>
