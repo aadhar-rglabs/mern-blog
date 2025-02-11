@@ -21,9 +21,21 @@ app.use(express.json());
 app.use('/auth', authRouter);
 app.use('/blogs', blogRouter);
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI, { 
+  // useNewUrlParser: true, 
+  // useUnifiedTopology: true 
+});
 
 const connection = mongoose.connection;
+
+connection.on('connected', () => {
+  console.log('Connected to MongoDB...');
+});
+
+connection.on('error', (err) => {
+  console.log('MongoDB connection error:', err);
+});
+
 connection.once('open', () => {
   console.log('Step-2 : MongoDB database connection established successfully...');
   console.log('\n');
